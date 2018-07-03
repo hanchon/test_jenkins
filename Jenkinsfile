@@ -22,6 +22,7 @@ pipeline {
 #conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 '''
         sh '''# Clean old files 
+ls
 rm -rf bitprim-*'''
       }
     }
@@ -42,21 +43,21 @@ rm -rf bitprim-*'''
       parallel {
         stage('Compile BCH') {
           steps {
-            sh './compile_coin.sh BCH'
+            sh '#./compile_coin.sh BCH'
             archiveArtifacts 'bin-BCH/bn-BCH'
             slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
         }
         stage('Compile BTC') {
           steps {
-            sh './compile_coin.sh BTC'
+            sh '#./compile_coin.sh BTC'
             archiveArtifacts 'bin-BTC/bn-BTC'
             slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
         }
         stage('Compile LTC') {
           steps {
-            sh './compile_coin.sh LTC'
+            sh '#./compile_coin.sh LTC'
             archiveArtifacts 'bin-LTC/bn-LTC'
             slackSend(message: 'LTC build success', channel: '#testing_bot', color: '#37c334')
           }
@@ -68,11 +69,13 @@ rm -rf bitprim-*'''
         stage('BCH mainnet') {
           steps {
             sh 'echo "run idb BCH mainnet"'
+            input(message: 'Was the BCH mainnet IBD OK?', id: 'bch-mainnet')
           }
         }
         stage('BCH testnet') {
           steps {
             sh 'echo "run idb BCH testnet"'
+            input(message: 'Was the BCH testnet IBD OK?', id: 'bch-testnet')
           }
         }
         stage('BTC mainnet') {
