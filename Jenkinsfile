@@ -25,7 +25,8 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
     }
     stage('Clone repos') {
       steps {
-        sh './clone.sh'
+        sh '''ls
+./clone.sh'''
       }
     }
     stage('Create release branches') {
@@ -103,6 +104,11 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
     stage('Upgrade dev version') {
       steps {
         sh 'echo "Upgrade dependencies version on dev branches"'
+      }
+    }
+    stage('') {
+      steps {
+        cleanWs()
       }
     }
   }
