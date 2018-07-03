@@ -20,7 +20,7 @@ apt-get install python -y
 apt-get install python-pip -y
 pip install conan --upgrade
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
-        slackSend(message: 'Requirements Installed', botUser: true)
+        slackSend(message: 'Requirements Installed', channel: '#testing_bot')
       }
     }
     stage('Clone repos') {
