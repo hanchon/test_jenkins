@@ -45,7 +45,8 @@ rm -rf bitprim-*'''
           steps {
             sh '''#./compile_coin.sh BCH
 mkdir bin-BCH
-echo "temp"> bn-BCH'''
+cd bin-BCH
+echo "temp" > bn-BCH'''
             archiveArtifacts 'bin-BCH/bn-BCH'
             slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
@@ -54,7 +55,8 @@ echo "temp"> bn-BCH'''
           steps {
             sh '''#./compile_coin.sh BTC
 mkdir bin-BTC
-echo "temp"> bn-BTC'''
+cd bin-BTC
+echo "temp" > bn-BTC'''
             archiveArtifacts 'bin-BTC/bn-BTC'
             slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
@@ -63,7 +65,8 @@ echo "temp"> bn-BTC'''
           steps {
             sh '''#./compile_coin.sh LTC
 mkdir bin-LTC
-echo "temp"> bn-LTC'''
+cd bin-LTC
+echo "temp" > bn-LTC'''
             archiveArtifacts 'bin-LTC/bn-LTC'
             slackSend(message: 'LTC build success', channel: '#testing_bot', color: '#37c334')
           }
