@@ -2,57 +2,73 @@ pipeline {
   agent {
     docker {
       label 'Bitprim_Slave'
-      image 'ubuntu:18.10'
       args '-u root'
+      image 'arceri/buildimage-ubuntu:18.10'
     }
 
   }
   stages {
     stage('Requirements') {
       steps {
-        sh '''#Install Requirements on Ubuntu18.10 docker image
-apt-get update
-apt-get install build-essential -y
-apt-get install gcc -y
-apt-get install git -y
-apt-get install cmake -y
-apt-get install python -y
-apt-get install python-pip -y
-pip install conan --upgrade
-conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
-        slackSend(message: 'Requirements Installed', channel: '#testing_bot')
+        sh '''#Use gea\'s image arceri/buildimage-ubuntu:18.10
+#apt-get update
+#apt-get install build-essential -y
+#apt-get install gcc -y
+#apt-get install git -y
+#apt-get install cmake -y
+#apt-get install python -y
+#apt-get install python-pip -y
+#pip install conan --upgrade
+#conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
+'''
+        sh '''# Clean old files 
+ls
+rm -rf bitprim-*'''
       }
     }
     stage('Clone repos') {
       steps {
-        sh '''ls
+        sh '''# Clone repos
 ./clone.sh'''
       }
     }
     stage('Create release branches') {
       steps {
-        sh './create_release_branches.sh'
+        sh '''# Create release branches using current dev
+./create_release_branches.sh'''
+        slackSend(message: 'Release branches created.', channel: '#testing_bot', color: '#37c334')
       }
     }
     stage('Compile') {
       parallel {
         stage('Compile BCH') {
           steps {
-            sh './compile_coin.sh BCH'
+            sh '''#./compile_coin.sh BCH
+mkdir bin-BCH
+cd bin-BCH
+echo "temp" > bn-BCH'''
             archiveArtifacts 'bin-BCH/bn-BCH'
-            slackSend(message: 'BCH build success', channel: '#testing_bot')
+            slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
         }
         stage('Compile BTC') {
           steps {
-            sh './compile_coin.sh BTC'
+            sh '''#./compile_coin.sh BTC
+mkdir bin-BTC
+cd bin-BTC
+echo "temp" > bn-BTC'''
             archiveArtifacts 'bin-BTC/bn-BTC'
+            slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
         }
         stage('Compile LTC') {
           steps {
-            sh './compile_coin.sh LTC'
+            sh '''#./compile_coin.sh LTC
+mkdir bin-LTC
+cd bin-LTC
+echo "temp" > bn-LTC'''
             archiveArtifacts 'bin-LTC/bn-LTC'
+            slackSend(message: 'LTC build success', channel: '#testing_bot', color: '#37c334')
           }
         }
       }
@@ -62,11 +78,13 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
         stage('BCH mainnet') {
           steps {
             sh 'echo "run idb BCH mainnet"'
+            input(message: 'Was the BCH mainnet IBD OK?', id: 'bch-mainnet')
           }
         }
         stage('BCH testnet') {
           steps {
             sh 'echo "run idb BCH testnet"'
+            input(message: 'Was the BCH testnet IBD OK?', id: 'bch-testnet')
           }
         }
         stage('BTC mainnet') {
@@ -93,7 +111,11 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
     }
     stage('Merge master') {
       steps {
-        sh 'echo "merge release branch code to master"'
+        sh '''echo "merge release branch code to master"
+ls
+cd bitprim-core
+git status
+'''
       }
     }
     stage('Tag master') {
