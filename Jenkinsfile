@@ -23,9 +23,82 @@ pip install conan --upgrade
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
       }
     }
-    stage('Create release branchs') {
+    stage('Clone repos') {
       steps {
-        sh 'echo "hello world"'
+        sh './clone.sh'
+      }
+    }
+    stage('Create release branches') {
+      steps {
+        sh './create_release_branches.sh'
+      }
+    }
+    stage('Compile') {
+      parallel {
+        stage('Compile BCH') {
+          steps {
+            sh './compile_coin.sh BCH'
+          }
+        }
+        stage('Compile BTC') {
+          steps {
+            sh './compile_coin.sh BTC'
+          }
+        }
+        stage('Compile LTC') {
+          steps {
+            sh './compile_coin.sh LTC'
+          }
+        }
+      }
+    }
+    stage('Testing (IBDs)') {
+      parallel {
+        stage('BCH mainnet') {
+          steps {
+            sh 'echo "run idb BCH mainnet"'
+          }
+        }
+        stage('BCH testnet') {
+          steps {
+            sh 'echo "run idb BCH testnet"'
+          }
+        }
+        stage('BTC mainnet') {
+          steps {
+            sh 'echo "run idb BTC mainnet"'
+          }
+        }
+        stage('BTC testnet') {
+          steps {
+            sh 'echo "run idb BTC testnet"'
+          }
+        }
+        stage('LTC mainnet') {
+          steps {
+            sh 'echo "run idb LTC mainnet"'
+          }
+        }
+        stage('LTC testnet') {
+          steps {
+            sh 'echo "run idb LTC testnet"'
+          }
+        }
+      }
+    }
+    stage('Merge master') {
+      steps {
+        sh 'echo "merge release branch code to master"'
+      }
+    }
+    stage('Tag master') {
+      steps {
+        sh 'echo "Tag master branch using the release version"'
+      }
+    }
+    stage('Upgrade dev version') {
+      steps {
+        sh 'echo "Upgrade dependencies version on dev branches"'
       }
     }
   }
