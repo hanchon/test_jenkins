@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Requirements') {
       steps {
-        sh '''#Use gea\'s image
+        sh '''#Use gea\'s image arceri/buildimage-ubuntu:18.10
 #apt-get update
 #apt-get install build-essential -y
 #apt-get install gcc -y
@@ -21,20 +21,21 @@ pipeline {
 #pip install conan --upgrade
 #conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 '''
-        slackSend(message: 'Requirements Installed', channel: '#testing_bot')
+        sh '''# Clean old files 
+rm -rf bitprim-*'''
       }
     }
     stage('Clone repos') {
       steps {
-        sh '''ls
-git status
-git rev-parse HEAD
+        sh '''# Clone repos
 ./clone.sh'''
       }
     }
     stage('Create release branches') {
       steps {
-        sh './create_release_branches.sh'
+        sh '''# Create release branches using current dev
+./create_release_branches.sh'''
+        slackSend(message: 'Release branches created.', channel: '#testing_bot', color: '#37c334')
       }
     }
     stage('Compile') {
@@ -43,19 +44,21 @@ git rev-parse HEAD
           steps {
             sh './compile_coin.sh BCH'
             archiveArtifacts 'bin-BCH/bn-BCH'
-            slackSend(message: 'BCH build success', channel: '#testing_bot')
+            slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
         }
         stage('Compile BTC') {
           steps {
             sh './compile_coin.sh BTC'
             archiveArtifacts 'bin-BTC/bn-BTC'
+            slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
         }
         stage('Compile LTC') {
           steps {
             sh './compile_coin.sh LTC'
             archiveArtifacts 'bin-LTC/bn-LTC'
+            slackSend(message: 'LTC build success', channel: '#testing_bot', color: '#37c334')
           }
         }
       }
