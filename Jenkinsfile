@@ -3,8 +3,7 @@ pipeline {
     docker {
       label 'Bitprim_Slave'
       image 'ubuntu:18.10'
-      args '''-u root -v /var/run/docker.sock:/var/run/docker.sock
--v jenkins_build:/var/jenkins_home'''
+      args '-u root'
     }
 
   }
@@ -105,8 +104,5 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
         sh 'echo "Upgrade dependencies version on dev branches"'
       }
     }
-  }
-  environment {
-    test = '120'
   }
 }
