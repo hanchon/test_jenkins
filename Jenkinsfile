@@ -2,8 +2,8 @@ pipeline {
   agent {
     docker {
       label 'Bitprim_Slave'
-      image 'ubuntu:18.10'
       args '-u root'
+      image 'arceri/buildimage-ubuntu:18.10'
     }
 
   }
