@@ -106,9 +106,9 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
         sh 'echo "Upgrade dependencies version on dev branches"'
       }
     }
-    stage('') {
+    stage('Clean') {
       steps {
-        cleanWs()
+        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, cleanupMatrixParent: true, deleteDirs: true)
       }
     }
   }
