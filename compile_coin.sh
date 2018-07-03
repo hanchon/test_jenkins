@@ -20,7 +20,7 @@ build_repo() {
 save_bn() {
 	mkdir bin-"${COIN}"
 	cd bin-"${COIN}"
-	conan install bitprim-node-exe/"${version}"@bitprim/testing -o *:with_rpc=True -o *:currency="${COIN}"
+	conan install bitprim-node-exe/"${version}"@bitprim/stable -o *:with_rpc=True -o *:currency="${COIN}"
 	mv bn bn-"${COIN}"
 	cd ..
 }
