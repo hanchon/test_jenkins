@@ -43,21 +43,27 @@ rm -rf bitprim-*'''
       parallel {
         stage('Compile BCH') {
           steps {
-            sh '#./compile_coin.sh BCH'
+            sh '''#./compile_coin.sh BCH
+mkdir bin-BCH
+echo "temp"> bn-BCH'''
             archiveArtifacts 'bin-BCH/bn-BCH'
             slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
         }
         stage('Compile BTC') {
           steps {
-            sh '#./compile_coin.sh BTC'
+            sh '''#./compile_coin.sh BTC
+mkdir bin-BTC
+echo "temp"> bn-BTC'''
             archiveArtifacts 'bin-BTC/bn-BTC'
             slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
         }
         stage('Compile LTC') {
           steps {
-            sh '#./compile_coin.sh LTC'
+            sh '''#./compile_coin.sh LTC
+mkdir bin-LTC
+echo "temp"> bn-LTC'''
             archiveArtifacts 'bin-LTC/bn-LTC'
             slackSend(message: 'LTC build success', channel: '#testing_bot', color: '#37c334')
           }
