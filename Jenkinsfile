@@ -26,6 +26,7 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
     stage('Clone repos') {
       steps {
         sh '''ls
+git status
 ./clone.sh'''
       }
     }
