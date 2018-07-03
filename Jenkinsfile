@@ -38,16 +38,19 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
         stage('Compile BCH') {
           steps {
             sh './compile_coin.sh BCH'
+            archiveArtifacts 'bin-BCH/bn-BCH'
           }
         }
         stage('Compile BTC') {
           steps {
             sh './compile_coin.sh BTC'
+            archiveArtifacts 'bin-BTC/bn-BTC'
           }
         }
         stage('Compile LTC') {
           steps {
             sh './compile_coin.sh LTC'
+            archiveArtifacts 'bin-LTC/bn-LTC'
           }
         }
       }
