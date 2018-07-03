@@ -39,6 +39,7 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
           steps {
             sh './compile_coin.sh BCH'
             archiveArtifacts 'bin-BCH/bn-BCH'
+            slackSend(message: 'BCH build success', channel: '#testing_bot')
           }
         }
         stage('Compile BTC') {
@@ -104,5 +105,8 @@ conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim'''
         sh 'echo "Upgrade dependencies version on dev branches"'
       }
     }
+  }
+  environment {
+    test = '120'
   }
 }
