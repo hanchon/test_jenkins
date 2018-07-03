@@ -114,7 +114,10 @@ echo "temp" > bn-LTC'''
         sh '''echo "merge release branch code to master"
 ls
 chmod +x merge_master.sh
-./merge_master.sh'''
+./merge_master.sh
+cd bitprim-core
+git status
+git log -n 10'''
       }
     }
     stage('Tag master') {
