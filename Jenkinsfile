@@ -117,12 +117,18 @@ chmod +x merge_master.sh
 ./merge_master.sh
 cd bitprim-core
 git status
-git log -n 10'''
+git log -n 10
+cd ..'''
       }
     }
     stage('Tag master') {
       steps {
-        sh 'echo "Tag master branch using the release version"'
+        sh '''echo "Tag master branch using the release version"
+ls
+./tag_master.sh
+cd bitprim-core
+git status
+git log -n 10'''
       }
     }
     stage('Upgrade dev version') {
