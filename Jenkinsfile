@@ -26,13 +26,16 @@ ls
 rm -rf bitprim-*
 rm -rf /root/.conan/data
 conan --version
-gcc --version'''
+gcc --version
+
+conan install boost/1.66.0@bitprim/stable'''
       }
     }
     stage('Clone repos') {
       steps {
         sh '''# Clone repos
-./clone.sh'''
+./clone.sh
+git status'''
       }
     }
     stage('Create release branches') {
@@ -46,7 +49,9 @@ gcc --version'''
       parallel {
         stage('Compile BCH') {
           steps {
-            sh '''./compile_coin.sh BCH
+            sh '''cat ./compile_coin.sh
+
+./compile_coin.sh BCH
 #mkdir bin-BCH
 #cd bin-BCH
 #echo "temp" > bn-BCH'''
