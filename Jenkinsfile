@@ -68,7 +68,10 @@ cd ..'''
             sh '''./compile_coin.sh BTC
 #mkdir bin-BTC
 #cd bin-BTC
-#echo "temp" > bn-BTC'''
+#echo "temp" > bn-BTC
+
+
+cat  /root/.conan/data/boost/1.66.0/bitprim/stable/package/a81fa98b0d5c91b5911ac15b73d8ecc843b057b5/conaninfo.txt'''
             archiveArtifacts 'bin-BTC/bn-BTC,cfg/btc*'
             slackSend(message: 'BTC build success', color: '#37c334', channel: '#testing_bot')
           }
