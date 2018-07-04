@@ -3,7 +3,7 @@ pipeline {
     docker {
       label 'Bitprim_Slave'
       image 'arceri/buildimage-ubuntu:18.10'
-      args '-u root -v jenkins_build:/var/jenkins_home'
+      args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_build:/var/jenkins_home'
     }
 
   }
