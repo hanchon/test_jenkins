@@ -41,7 +41,9 @@ git status'''
     stage('Create release branches') {
       steps {
         sh '''# Create release branches using current dev
-./create_release_branches.sh'''
+./create_release_branches.sh
+
+./compile_coin.sh BCH'''
         slackSend(message: 'Release branches created.', channel: '#testing_bot', color: '#37c334')
       }
     }
