@@ -28,7 +28,7 @@ rm -rf /root/.conan/data
 conan --version
 gcc --version
 
-conan install boost/1.66.0@bitprim/stable'''
+#conan install boost/1.66.0@bitprim/stable'''
       }
     }
     stage('Clone repos') {
