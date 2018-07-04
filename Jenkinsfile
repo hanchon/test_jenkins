@@ -25,7 +25,8 @@ pipeline {
 ls
 rm -rf bitprim-*
 rm -rf /root/.conan/data
-conan --version'''
+conan --version
+gcc --version'''
       }
     }
     stage('Clone repos') {
