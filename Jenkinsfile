@@ -51,10 +51,14 @@ git status'''
           steps {
             sh '''cat ./compile_coin.sh
 
-./compile_coin.sh BCH
+#./compile_coin.sh BCH
 #mkdir bin-BCH
 #cd bin-BCH
-#echo "temp" > bn-BCH'''
+#echo "temp" > bn-BCH
+
+cd bitprim-core
+conan create . bitprim-core/0.11.0@bitprim/stable -o *:currency=BCH -o *:with_rpc=True
+cd ..'''
             archiveArtifacts 'bin-BCH/bn-BCH,cfg/bch*'
             slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
           }
