@@ -57,7 +57,7 @@ git status'''
 #echo "temp" > bn-BCH
 
 cd bitprim-core
-conan create . bitprim-core/0.11.0@bitprim/stable -o *:currency=BCH -o *:with_rpc=True
+conan create . bitprim-core/0.11.0@bitprim/stable -o *:currency=BCH
 cd ..'''
             archiveArtifacts 'bin-BCH/bn-BCH,cfg/bch*'
             slackSend(message: 'BCH build success', channel: '#testing_bot', color: '#37c334')
