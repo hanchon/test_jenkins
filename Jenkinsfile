@@ -23,7 +23,8 @@ pipeline {
 '''
         sh '''# Clean old files 
 ls
-rm -rf bitprim-*'''
+rm -rf bitprim-*
+rm -rf /root/.conan/data'''
       }
     }
     stage('Clone repos') {
